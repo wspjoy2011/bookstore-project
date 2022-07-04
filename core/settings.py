@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 
+from .utils import get_env_value
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,10 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-tl2_tm-ft^=0_vrpib1nqq_jfl3_ee7kn%&jx3fn(sai9_=ubl'
+SECRET_KEY = get_env_value("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(get_env_value("DEBUG", 0))
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -43,6 +46,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
 
     # Local
     'users.apps.UsersConfig',
@@ -86,9 +91,9 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'NAME': get_env_value("POSTGRES_DB"),
+        'USER': get_env_value("POSTGRES_USER"),
+        'PASSWORD': get_env_value("POSTGRES_PASSWORD"),
         'HOST': 'db',
         'PORT': 5432
     }
@@ -159,7 +164,21 @@ AUTHENTICATION_BACKENDS = (
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        'APP': {
+            'client_id': '951441731c8164c5433a',
+            'secret': '97a3452ba60be72529b0f585256c53c7889efaf6',
+            'key': ''
+        }
+    }
+}
