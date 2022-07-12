@@ -14,6 +14,7 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.ManyToManyField('Author')
     price = models.DecimalField(max_digits=6, decimal_places=2)
+    cover = models.ImageField(upload_to='covers/', blank=True)
 
     def get_authors(self):
         return "\n".join([a.name for a in self.author.all()])
