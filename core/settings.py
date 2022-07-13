@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     # Local
     'users.apps.UsersConfig',
     'pages.apps.PagesConfig',
-    'books.apps.BooksConfig'
+    'books.apps.BooksConfig',
+    'orders.apps.OrdersConfig',
 ]
 
 MIDDLEWARE = [
@@ -188,9 +189,14 @@ SOCIALACCOUNT_PROVIDERS = {
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
         'APP': {
-            'client_id': '951441731c8164c5433a',
-            'secret': '97a3452ba60be72529b0f585256c53c7889efaf6',
+            'client_id': get_env_value('CLIENT_ID_GITHUB'),
+            'secret': get_env_value('SECRET_GITHUB'),
             'key': ''
         }
     }
 }
+
+# Stripe info
+
+STRIPE_TEST_PUBLISHABLE_KEY = get_env_value('STRIPE_TEST_PUBLISHABLE_KEY')
+STRIPE_TEST_SECRET_KEY = get_env_value('STRIPE_TEST_SECRET_KEY')

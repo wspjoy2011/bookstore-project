@@ -1,0 +1,21 @@
+{% extends '_base.html' %}
+
+{% block title %}Orders{% endblock title %}
+
+{% block content %}
+<div>
+    Visa	4242424242424242	Any 3 digits	Any future date
+</div>
+<h1>Orders page</h1>
+<p>Buy for $39.00</p>
+<hr>
+<form action="{% url 'charge' %}" method="post">
+    {% csrf_token %}
+    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="{{ stripe_key }}"
+            data-description="All Books"
+            data-amount="3900"
+            data-locale="auto">
+    </script>
+</form>
+{% endblock content %}

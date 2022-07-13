@@ -26,6 +26,7 @@ urlpatterns = [
     # Local apps
     path('', include('pages.urls')),
     path('books/', include('books.urls')),
+    path('orders/', include('orders.urls')),
 ]
 
 if settings.DEBUG:
