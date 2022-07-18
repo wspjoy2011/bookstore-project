@@ -65,3 +65,9 @@ class BookTests(TestCase):
         self.assertContains(response, 'Harry Potter')
         self.assertContains(response, 'An excellent review')
         self.assertTemplateUsed(response, 'books/book_detail.html')
+
+    def test_book_search(self):
+        response = self.client.get(reverse('search-results'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Harry Potter')
+        self.assertTemplateUsed(response, 'books/search_results.html')

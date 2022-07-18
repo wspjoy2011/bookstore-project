@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import socket
 
 from .utils import get_env_value
 
@@ -27,7 +28,6 @@ SECRET_KEY = get_env_value("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(get_env_value("DEBUG", 1))
-print(DEBUG)
 
 ALLOWED_HOSTS = ['*']
 
@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
+    'debug_toolbar',
+    'compressor',
+    'django_extensions',
 
     # Local
     'users.apps.UsersConfig',
@@ -65,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -143,6 +147,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    'compressor.finders.CompressorFinder',
 ]
 
 
@@ -200,3 +205,9 @@ SOCIALACCOUNT_PROVIDERS = {
 
 STRIPE_TEST_PUBLISHABLE_KEY = get_env_value('STRIPE_TEST_PUBLISHABLE_KEY')
 STRIPE_TEST_SECRET_KEY = get_env_value('STRIPE_TEST_SECRET_KEY')
+
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
+
+COMPRESS_OFFLINE = True
+COMPRESS_ENABLED = True
