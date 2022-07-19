@@ -3,12 +3,21 @@
 {% block title %}Search{% endblock title %}
 
 {% block content %}
-<h1>Search Results</h1>
+<h1>
+    Search Results
+</h1>
+
+{% with total=books.count %}
+    <b>{{ total }} result{{ total|pluralize }}</b>
+{% endwith %}
+
 {% for book in books %}
     <div>
     <h3><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h3>
     <p>Author: {{ book.author }}</p>
     <p>Price: $ {{ book.price }}</p>
     </div>
+{% empty %}
+    <h6>No match in query result</h6>
 {% endfor %}
 {% endblock content %}

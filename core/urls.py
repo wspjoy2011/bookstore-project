@@ -18,6 +18,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+
+admin_path = 'admin/'
+
+if not settings.DEBUG:
+    admin_path = 'secret-path-admin/'
+
 urlpatterns = [
     # Django admin
     path('admin/', admin.site.urls),
