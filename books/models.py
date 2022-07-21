@@ -25,6 +25,9 @@ class Book(models.Model):
     def get_authors(self):
         return "\n".join([a.name for a in self.author.all()])
 
+    def get_reviews(self):
+        return "\n".join([f'{r.author}: {r.review}' for r in self.reviews.all()])
+
     def get_absolute_url(self):
         return reverse('book-detail', args=[str(self.id)])
 

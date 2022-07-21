@@ -18,6 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from books.views import BookAPIView, AuthorAPIView
 
 admin_path = 'admin/'
 
@@ -33,6 +34,9 @@ urlpatterns = [
     path('', include('pages.urls')),
     path('books/', include('books.urls')),
     path('orders/', include('orders.urls')),
+    # API
+    path('api/v1/booklist/', BookAPIView.as_view()),
+    path('api/v1/authorlist/', AuthorAPIView.as_view())
 ]
 
 if settings.DEBUG:

@@ -20,6 +20,7 @@ services:
     restart: always
     build: .
     command: python /code/manage.py runserver 0.0.0.0:8000
+#    command: gunicorn --bind 0.0.0.0:8000 core.wsgi
     env_file:
       - .env
     volumes:

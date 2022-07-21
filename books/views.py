@@ -4,8 +4,10 @@ from django.contrib.auth.mixins import (
 )
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
+from rest_framework import generics
 
-from .models import Book
+from .models import Book, Author
+from .serializers import BookSerializer, AuthorSerializer
 
 
 class BookListView(LoginRequiredMixin, ListView):
@@ -37,3 +39,13 @@ class SearchResultsListView(ListView):
         return Book.objects.filter(
             Q(title__icontains=query) | Q(title__icontains=query)
         )
+
+
+class BookAPIView(generics.ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+
+
+class AuthorAPIView(generics.ListAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
